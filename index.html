@@ -7,6 +7,7 @@
 <meta name="description" content="CalebPhoto, la photographie de Caleb Bah : mariages, art photo et événements. La lumière, avant tout.">
 <meta property="og:title" content="CalebPhoto — La lumière, avant tout.">
 <meta property="og:description" content="Mariage photographie · Art photo · Évent photos">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preload" href="fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="img/cam_front.webp" as="image">
 <style>
@@ -413,7 +414,7 @@ footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;m
 <script src="vendor/lenis.min.js"></script>
 <script>
 /* ============ Coordonnées (à compléter) ============ */
-const CONTACT = { whatsapp: "", email: "", instagram: "" }; // ex. whatsapp:"2250700000000"
+const CONTACT = { whatsapp: "2250576663792", whatsappLabel: "+225 05 76 66 37 92", email: "calebbah84@gmail.com", instagram: "" };
 
 const META = {"art": [{"src": "img/a01.webp", "w": 1500, "h": 1000}, {"src": "img/a02.webp", "w": 1500, "h": 1000}, {"src": "img/a03.webp", "w": 1500, "h": 1000}, {"src": "img/a04.webp", "w": 1500, "h": 1000}, {"src": "img/a05.webp", "w": 1500, "h": 1000}, {"src": "img/a06.webp", "w": 1500, "h": 1000}, {"src": "img/a07.webp", "w": 1000, "h": 1500}, {"src": "img/a08.webp", "w": 1000, "h": 1500}, {"src": "img/a09.webp", "w": 1000, "h": 1500}, {"src": "img/a10.webp", "w": 1000, "h": 1500}, {"src": "img/a11.webp", "w": 1000, "h": 1500}, {"src": "img/a12.webp", "w": 1000, "h": 1500}, {"src": "img/a13.webp", "w": 1000, "h": 1500}, {"src": "img/a14.webp", "w": 1500, "h": 1000}, {"src": "img/a15.webp", "w": 1000, "h": 1500}, {"src": "img/a16.webp", "w": 1000, "h": 1500}, {"src": "img/a17.webp", "w": 1000, "h": 1500}], "event": [{"src": "img/e01.webp", "w": 1000, "h": 1500}, {"src": "img/e02.webp", "w": 1500, "h": 1000}, {"src": "img/e03.webp", "w": 1000, "h": 1500}, {"src": "img/e04.webp", "w": 1500, "h": 998}, {"src": "img/e05.webp", "w": 1000, "h": 1500}, {"src": "img/e06.webp", "w": 1500, "h": 1000}, {"src": "img/e07.webp", "w": 1000, "h": 1500}, {"src": "img/e08.webp", "w": 1000, "h": 1500}, {"src": "img/e09.webp", "w": 1000, "h": 1500}, {"src": "img/e10.webp", "w": 1000, "h": 1500}, {"src": "img/e11.webp", "w": 1000, "h": 1500}, {"src": "img/e12.webp", "w": 1500, "h": 1000}, {"src": "img/e13.webp", "w": 1000, "h": 1500}, {"src": "img/e14.webp", "w": 1000, "h": 1500}, {"src": "img/e15.webp", "w": 1500, "h": 1200}, {"src": "img/e16.webp", "w": 1500, "h": 1000}, {"src": "img/e17.webp", "w": 1000, "h": 1500}], "mariage": [{"src": "img/m01.webp", "w": 1000, "h": 1500}, {"src": "img/m02.webp", "w": 1000, "h": 1500}, {"src": "img/m03.webp", "w": 1000, "h": 1500}, {"src": "img/m04.webp", "w": 556, "h": 805}, {"src": "img/m05.webp", "w": 437, "h": 690}, {"src": "img/m06.webp", "w": 1000, "h": 1500}, {"src": "img/m07.webp", "w": 1000, "h": 1500}, {"src": "img/m08.webp", "w": 1121, "h": 1500}, {"src": "img/m09.webp", "w": 1000, "h": 1500}, {"src": "img/m10.webp", "w": 1000, "h": 1500}, {"src": "img/m11.webp", "w": 1500, "h": 1200}, {"src": "img/m12.webp", "w": 1307, "h": 1500}, {"src": "img/m13.webp", "w": 1228, "h": 1500}, {"src": "img/m14.webp", "w": 1000, "h": 1500}, {"src": "img/m15.webp", "w": 1000, "h": 1500}, {"src": "img/m16.webp", "w": 640, "h": 960}]};
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -494,7 +495,8 @@ document.getElementById('ecount').textContent = String(META.event.length).padSta
   const b = document.getElementById('btns'), n = document.getElementById('cnote'); let any = false;
   if (CONTACT.whatsapp) { any = true; b.insertAdjacentHTML('beforeend', `<a class="btn fill" href="https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent('Bonjour Caleb, je souhaite réserver une séance photo.')}" target="_blank" rel="noopener">WhatsApp</a>`); }
   if (CONTACT.instagram) { any = true; b.insertAdjacentHTML('beforeend', `<a class="btn" href="https://instagram.com/${CONTACT.instagram}" target="_blank" rel="noopener">Instagram</a>`); }
-  if (CONTACT.email) { any = true; b.insertAdjacentHTML('beforeend', `<a class="btn" href="mailto:${CONTACT.email}">E-mail</a>`); n.textContent = CONTACT.email; }
+  if (CONTACT.email) { any = true; b.insertAdjacentHTML('beforeend', `<a class="btn" href="mailto:${CONTACT.email}?subject=${encodeURIComponent('Réservation séance photo')}">E-mail</a>`); }
+  n.textContent = [CONTACT.whatsapp && ('WhatsApp ' + CONTACT.whatsappLabel), CONTACT.email].filter(Boolean).join('  ·  ');
   if (!any) { b.insertAdjacentHTML('beforeend', `<a class="btn fill" href="#mariage-intro">Voir les mariages</a><a class="btn" href="#art-intro">Art photo</a><a class="btn" href="#event-intro">Évent</a>`); n.textContent = 'Réservations sur demande.'; }
   b.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); const t = document.querySelector(a.getAttribute('href')); lenis ? lenis.scrollTo(t, { duration: 1.8 }) : t.scrollIntoView(); }));
 })();
