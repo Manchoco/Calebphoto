@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CalebPhoto — Photographie Mariage, Art & Événements</title>
+<meta name="description" content="CalebPhoto, la photographie de Caleb Bah : mariages, art photo et événements. La lumière, avant tout.">
+<meta property="og:title" content="CalebPhoto — La lumière, avant tout.">
+<meta property="og:description" content="Mariage photographie · Art photo · Évent photos">
+<link rel="preload" href="fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="img/cam_front.webp" as="image">
+<style>
+@font-face{font-family:"Fraunces";src:url(fonts/fraunces-latin-wght-normal.woff2) format("woff2");font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:"Fraunces";src:url(fonts/fraunces-latin-wght-italic.woff2) format("woff2");font-weight:100 900;font-style:italic;font-display:swap}
+@font-face{font-family:"Manrope";src:url(fonts/manrope-latin-wght-normal.woff2) format("woff2");font-weight:200 800;font-display:swap}
+:root{--bg:#0b0a09;--bg2:#141210;--ink:#f2ece2;--mute:rgba(242,236,226,.62);--line:rgba(242,236,226,.14);--gold:#c9a25a;--gold2:#e8d3a8;--terra:#c0703f;--blue:#3d5cff;--mag:#ff2e7a;--serif:"Fraunces",Georgia,serif;--sans:"Manrope",system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg);color:var(--ink)}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+body{font-family:var(--sans);font-size:16px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%;-webkit-user-drag:none;user-select:none}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--gold);color:#000}
+.grain{position:fixed;inset:-50%;pointer-events:none;z-index:90;opacity:.06;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grain 1.2s steps(6) infinite}
+@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-3%)}60%{transform:translate(-2%,-1%)}80%{transform:translate(3%,3%)}100%{transform:translate(0,0)}}
+
+/* ---------- Loader : diaphragme ---------- */
+#loader{position:fixed;inset:0;z-index:200;background:#060505;display:grid;place-items:center;--r:0%;-webkit-mask:radial-gradient(circle at 50% 50%,transparent var(--r),#000 calc(var(--r) + .5%));mask:radial-gradient(circle at 50% 50%,transparent var(--r),#000 calc(var(--r) + .5%))}
+#loader .in{display:flex;flex-direction:column;align-items:center;gap:22px}
+#loader svg{width:84px;height:84px;animation:spin 6s linear infinite}
+#loader .cnt{font-family:var(--serif);font-size:13px;letter-spacing:.4em;color:var(--mute)}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- Header ---------- */
+header{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;align-items:center;justify-content:space-between;padding:22px clamp(18px,4vw,56px);transition:background .4s,padding .4s}
+header.solid{background:linear-gradient(#0b0a09f0,#0b0a0900);padding-top:14px}
+.logo{display:flex;align-items:center;gap:10px;line-height:1}
+.logo svg{width:26px;height:26px}
+.logo b{font-family:var(--serif);font-style:italic;font-weight:500;font-size:22px;letter-spacing:-.01em}
+.logo i{font-style:normal;font-size:10px;letter-spacing:.42em;color:var(--gold);margin-left:2px}
+nav{display:flex;gap:clamp(14px,2.4vw,34px);font-size:12px;letter-spacing:.22em;text-transform:uppercase}
+nav a{position:relative;color:var(--mute);transition:color .3s}
+nav a:hover,nav a.on{color:var(--ink)}
+nav a::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .4s}
+nav a:hover::after,nav a.on::after{transform:scaleX(1)}
+.cta-mini{border:1px solid var(--line);padding:9px 16px;border-radius:99px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;transition:.3s}
+.cta-mini:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ---------- Stage caméra (fixe) ---------- */
+#stage{position:fixed;left:50%;top:52%;width:min(42vw,600px);aspect-ratio:1/0.9;z-index:5;pointer-events:none;perspective:1400px}
+#stage .rig{position:absolute;inset:0;transform-style:preserve-3d}
+#stage .auto,#stage .scr{position:absolute;inset:0;transform-style:preserve-3d}
+#stage .halo{position:absolute;left:50%;bottom:-6%;width:120%;height:36%;transform:translateX(-50%);background:radial-gradient(50% 50% at 50% 50%,rgba(201,162,90,.45),rgba(201,162,90,0) 70%);filter:blur(10px)}
+#stage .floor{position:absolute;left:50%;bottom:-2%;width:70%;height:10%;transform:translateX(-50%);background:radial-gradient(50% 50% at 50% 50%,rgba(0,0,0,.75),transparent 70%)}
+#stage .v{position:absolute;inset:0;display:grid;place-items:center;opacity:0;will-change:transform,opacity}
+#stage .v img{max-width:100%;max-height:100%;filter:drop-shadow(0 30px 40px rgba(0,0,0,.6))}
+#stage .auto .v:first-child{opacity:1}
+
+/* ---------- Hero ---------- */
+#hero{position:relative;height:100svh;min-height:620px;overflow:hidden}
+#hero .bigword{position:absolute;left:50%;top:47%;transform:translate(-50%,-50%);font-family:var(--serif);font-weight:800;font-size:clamp(120px,31vw,520px);line-height:.8;letter-spacing:-.04em;white-space:nowrap;color:#17140f;-webkit-text-stroke:1px rgba(232,211,168,.32);z-index:1}
+#hero .bigword span{display:inline-block}
+#hero .spot{position:absolute;left:50%;top:-10%;width:90vw;height:120%;transform:translateX(-50%);background:conic-gradient(from 180deg at 50% 0%,transparent 160deg,rgba(232,211,168,.10) 175deg,rgba(232,211,168,.16) 180deg,rgba(232,211,168,.10) 185deg,transparent 200deg);pointer-events:none;z-index:2}
+#hero .meta{position:absolute;left:clamp(18px,4vw,56px);bottom:clamp(28px,6vh,64px);z-index:6;max-width:420px}
+#hero .kicker{font-size:11px;letter-spacing:.38em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+#hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(30px,3.6vw,54px);line-height:1.02;letter-spacing:-.02em}
+#hero h1 em{font-style:italic;color:var(--gold2)}
+#hero p{color:var(--mute);margin-top:14px;font-size:15px}
+#hero .right{position:absolute;right:clamp(18px,4vw,56px);bottom:clamp(28px,6vh,64px);z-index:6;text-align:right;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--mute)}
+#hero .right b{display:block;font-family:var(--serif);font-size:15px;letter-spacing:.05em;color:var(--ink);font-weight:400;text-transform:none;font-style:italic}
+.scrollhint{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);z-index:6;display:flex;flex-direction:column;align-items:center;gap:8px;font-size:10px;letter-spacing:.4em;color:var(--mute);text-transform:uppercase}
+.scrollhint i{display:block;width:1px;height:46px;background:linear-gradient(var(--gold),transparent);animation:drip 2s ease-in-out infinite;transform-origin:top}
+@keyframes drip{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+
+/* ---------- Chapitres caméra ---------- */
+#chapters{position:relative;z-index:6}
+.chap{height:110vh;display:flex;align-items:center;padding:0 clamp(18px,7vw,120px)}
+.chap.r{justify-content:flex-end}
+.chap .txt{max-width:430px;position:relative}
+.chap .num{font-family:var(--serif);font-size:clamp(90px,11vw,170px);line-height:.8;font-weight:300;color:transparent;-webkit-text-stroke:1px rgba(201,162,90,.55);position:absolute;top:-.62em;left:-.06em;z-index:-1}
+.chap.r .num{left:auto;right:-.06em}
+.chap .lab{font-size:11px;letter-spacing:.38em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;gap:14px;align-items:center}
+.chap .lab::before{content:"";width:34px;height:1px;background:var(--gold)}
+.chap h2{font-family:var(--serif);font-weight:400;font-size:clamp(34px,4.2vw,64px);line-height:1.02;letter-spacing:-.025em;margin-bottom:22px}
+.chap h2 em{font-style:italic;color:var(--gold2)}
+.chap p{color:var(--mute);font-size:16px}
+.specs{display:flex;gap:26px;margin-top:28px;border-top:1px solid var(--line);padding-top:20px}
+.specs div{font-family:var(--serif);font-size:28px;line-height:1}
+.specs small{display:block;font-family:var(--sans);font-size:10px;letter-spacing:.3em;color:var(--mute);text-transform:uppercase;margin-top:8px}
+.line-mask{display:inline-block;overflow:hidden;padding-bottom:.1em;margin-bottom:-.1em;vertical-align:top}
+.line-mask>*{display:inline-block;will-change:transform}
+#lensblack{position:fixed;inset:0;background:#000;opacity:0;pointer-events:none;z-index:4}
+
+/* ---------- Univers ---------- */
+#univers{position:relative;z-index:6;padding:18vh 0 10vh;text-align:center;overflow:hidden;background:var(--bg)}
+#univers .k{font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:24px}
+#univers h2{font-family:var(--serif);font-weight:400;font-size:clamp(40px,6vw,96px);line-height:1.02;letter-spacing:-.03em;padding:0 18px}
+#univers h2 em{font-style:italic;color:var(--gold2)}
+.marquee{margin-top:9vh;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:22px 0;white-space:nowrap;overflow:hidden}
+.marquee .t{display:inline-flex;gap:60px;animation:mq 28s linear infinite;font-family:var(--serif);font-size:clamp(34px,5vw,74px);font-style:italic;font-weight:300}
+.marquee .t span{display:inline-flex;align-items:center;gap:60px}
+.marquee .t span::after{content:"";width:12px;height:12px;border-radius:50%;background:var(--gold);display:inline-block}
+@keyframes mq{to{transform:translateX(-50%)}}
+.genres{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);margin:9vh clamp(18px,4vw,56px) 0;border:1px solid var(--line)}
+.genres a{background:var(--bg);padding:34px 28px;text-align:left;transition:background .4s;position:relative;overflow:hidden}
+.genres a:hover{background:var(--bg2)}
+.genres b{display:block;font-family:var(--serif);font-weight:400;font-size:30px;font-style:italic}
+.genres small{font-size:11px;letter-spacing:.3em;color:var(--mute);text-transform:uppercase}
+.genres a::after{content:"→";position:absolute;right:28px;top:34px;color:var(--gold);font-size:22px;transition:transform .4s}
+.genres a:hover::after{transform:translateX(6px)}
+
+/* ---------- Intros de genre (sticky) ---------- */
+.intro{position:relative;z-index:6}
+.intro .sticky{position:sticky;top:0;height:100svh;overflow:hidden;display:grid;place-items:center}
+.intro .bg-word{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);font-family:var(--serif);font-weight:800;line-height:.82;letter-spacing:-.045em;white-space:nowrap;text-align:center;pointer-events:none}
+.intro .bg-word span{display:inline-block}
+.intro .chapnum{position:absolute;top:12vh;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:.42em;text-transform:uppercase;color:var(--gold);text-align:center;z-index:5}
+.intro .sub{position:absolute;bottom:7vh;left:50%;transform:translateX(-50%);width:min(560px,88vw);text-align:center;color:var(--mute);font-size:15px;z-index:5}
+.intro .sub b{display:block;font-family:var(--serif);font-weight:400;font-style:italic;color:var(--ink);font-size:clamp(22px,2.4vw,32px);margin-bottom:8px;line-height:1.15}
+
+/* Mariage */
+#mariage-intro{height:340vh;background:radial-gradient(70% 60% at 50% 55%,#1b1712 0%,var(--bg) 70%)}
+#mariage-intro .bg-word{font-size:clamp(64px,14vw,230px);color:transparent;-webkit-text-stroke:1px rgba(232,211,168,.42);top:31%}
+#mariage-intro .bg-word .l2{display:block;font-size:.3em;letter-spacing:.32em;font-weight:300;-webkit-text-stroke:0;color:var(--gold2);margin-top:.3em}
+.boxwrap{position:relative;width:min(23vw,300px);aspect-ratio:736/781;perspective:1200px;z-index:2;margin-top:26vh}
+.boxwrap .box{position:absolute;inset:0;transform-style:preserve-3d}
+.boxwrap .box img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 40px 50px rgba(0,0,0,.7))}
+.boxwrap .pool{position:absolute;left:50%;bottom:-8%;width:130%;height:30%;transform:translateX(-50%);background:radial-gradient(50% 50% at 50% 50%,rgba(232,190,110,.35),transparent 70%);filter:blur(8px);z-index:-1}
+#rings{position:absolute;left:-60%;width:220%;top:-150%;height:250%;z-index:3;pointer-events:none}
+.sparks{position:absolute;left:-40%;right:-40%;top:-90%;height:120%;z-index:4;pointer-events:none}
+.sparks i{position:absolute;opacity:0;background:radial-gradient(circle,#fff 0 8%,rgba(255,226,160,.5) 14%,transparent 34%),linear-gradient(90deg,transparent 47%,rgba(255,233,184,.9) 49% 51%,transparent 53%),linear-gradient(0deg,transparent 47%,rgba(255,233,184,.9) 49% 51%,transparent 53%);-webkit-mask:radial-gradient(circle,#000 25%,transparent 70%);mask:radial-gradient(circle,#000 25%,transparent 70%);animation:tw 1.8s ease-in-out infinite}
+@keyframes tw{0%,100%{transform:scale(.2) rotate(0);opacity:0}50%{transform:scale(1) rotate(12deg);opacity:var(--o,1)}}
+
+/* Art */
+#art-intro{height:340vh;background:#0a0807}
+#art-intro .cone{position:absolute;left:50%;top:-5%;width:110vw;height:115%;transform:translateX(-50%);background:conic-gradient(from 180deg at 50% 0%,transparent 158deg,rgba(255,190,140,.10) 172deg,rgba(255,200,150,.2) 180deg,rgba(255,190,140,.10) 188deg,transparent 202deg);opacity:0}
+#art-intro .bg-word{font-size:clamp(64px,14.5vw,260px);color:#17110d;-webkit-text-stroke:1px rgba(192,112,63,.45)}
+.maskwrap{position:relative;height:min(70svh,700px);aspect-ratio:900/1241;perspective:1100px;z-index:2}
+.maskwrap .mask{position:absolute;inset:0;transform-style:preserve-3d;will-change:transform}
+.maskwrap .mask img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 40px 60px rgba(0,0,0,.8)) brightness(var(--b,.35))}
+.maskwrap .shade{position:absolute;inset:0;-webkit-mask:url(img/mask.webp) center/contain no-repeat;mask:url(img/mask.webp) center/contain no-repeat;background:linear-gradient(90deg,rgba(0,0,0,var(--sl,0)),rgba(0,0,0,0) 55%),linear-gradient(270deg,rgba(0,0,0,var(--sr,0)),rgba(0,0,0,0) 55%)}
+.maskwrap .eye{position:absolute;height:2.6%;border-radius:50%;transform:scaleY(0);background:radial-gradient(50% 50% at 50% 50%,#fff8e6 0%,#ffcf7a 35%,#ff8a2a 62%,rgba(255,120,30,0) 100%);box-shadow:0 0 26px 6px rgba(255,170,70,.45)}
+.maskwrap .eye::after{content:"";position:absolute;left:50%;top:50%;width:20%;height:96%;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,#0b0400 40%,#3a1600 100%);opacity:var(--pu,0)}
+.maskwrap .eyeglow{position:absolute;inset:-10%;background:radial-gradient(14% 5% at 39% 42.5%,rgba(255,170,70,.55),transparent),radial-gradient(14% 5% at 61% 42.5%,rgba(255,170,70,.55),transparent);opacity:0;mix-blend-mode:screen;filter:blur(8px);pointer-events:none}
+
+/* Évent */
+#event-intro{height:260vh;background:#050507}
+#event-intro .bg-word{font-size:clamp(80px,17vw,300px);color:#fff;opacity:0}
+#event-intro .bg-word .l2{display:block;font-size:.3em;letter-spacing:.34em;font-weight:300;margin-top:.3em;color:var(--ink)}
+#flash{position:fixed;inset:0;z-index:150;pointer-events:none;opacity:0;background:radial-gradient(60% 60% at 50% 45%,#fff 0%,#f4f2ff 40%,#dfe4ff 100%)}
+.flashgun{position:absolute;top:12vh;right:clamp(18px,6vw,100px);display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.38em;text-transform:uppercase;color:var(--mute);z-index:3}
+.flashgun i{width:8px;height:8px;border-radius:50%;background:#ff3b3b;box-shadow:0 0 12px #ff3b3b;animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:.15}}
+.stagebeams{position:absolute;inset:0;opacity:0;background:radial-gradient(30% 70% at 18% 0%,rgba(61,92,255,.4),transparent 70%),radial-gradient(30% 70% at 82% 0%,rgba(255,46,122,.32),transparent 70%),radial-gradient(40% 40% at 50% 110%,rgba(255,200,60,.2),transparent 70%)}
+
+/* ---------- Galeries ---------- */
+.gal-head{position:relative;z-index:6;padding:14vh clamp(18px,7vw,120px) 7vh;display:grid;grid-template-columns:1fr 1fr;gap:6vw;align-items:end}
+.gal-head .k{font-size:11px;letter-spacing:.38em;text-transform:uppercase;color:var(--acc,var(--gold));margin-bottom:18px}
+.gal-head h3{font-family:var(--serif);font-weight:400;font-size:clamp(36px,5vw,78px);line-height:1;letter-spacing:-.03em}
+.gal-head h3 em{font-style:italic;color:var(--acc2,var(--gold2))}
+.gal-head p{color:var(--mute);max-width:440px}
+.gal-head .count{font-family:var(--serif);font-size:13px;letter-spacing:.2em;color:var(--mute);margin-top:18px}
+.ph{position:relative;overflow:hidden;background:#151311;cursor:zoom-in}
+.ph img{width:100%;height:100%;object-fit:cover;transform:scale(1.12);transition:filter .6s}
+.ph::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04);pointer-events:none}
+.ph figcaption{position:absolute;left:14px;bottom:12px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.85);opacity:0;transform:translateY(8px);transition:.4s;text-shadow:0 1px 8px rgba(0,0,0,.7)}
+.ph:hover figcaption{opacity:1;transform:none}
+
+/* Mariage : défilement horizontal */
+#mariage-gal{position:relative;z-index:6;--acc:var(--gold2);--acc2:var(--gold2)}
+.hwrap{position:relative}
+.hwrap .hs{position:sticky;top:0;height:100svh;overflow:hidden;display:flex;align-items:center}
+.htrack{display:flex;gap:2.2vw;padding:0 clamp(18px,7vw,120px);align-items:center;will-change:transform}
+.htrack .ph{height:66svh;flex:0 0 auto;border-radius:2px}
+.htrack .ph:nth-child(3n+2){height:52svh;align-self:flex-start;margin-top:14svh}
+.htrack .ph:nth-child(3n){height:58svh;align-self:flex-end;margin-bottom:12svh}
+.htrack .quote{flex:0 0 auto;width:min(360px,70vw);font-family:var(--serif);font-style:italic;font-size:clamp(26px,2.6vw,40px);line-height:1.12;color:var(--gold2);padding:0 2vw}
+.htrack .quote small{display:block;font-family:var(--sans);font-style:normal;font-size:11px;letter-spacing:.3em;color:var(--mute);text-transform:uppercase;margin-top:18px}
+.hprog{position:absolute;left:clamp(18px,7vw,120px);right:clamp(18px,7vw,120px);bottom:5vh;height:1px;background:var(--line)}
+.hprog i{position:absolute;inset:0;background:var(--gold2);transform-origin:left;transform:scaleX(0)}
+
+/* Art : séries éditoriales */
+#art-gal{position:relative;z-index:6;--acc:var(--terra);--acc2:#e0a27a}
+.series{padding:0 clamp(18px,7vw,120px) 12vh}
+.series-h{display:flex;align-items:baseline;gap:22px;border-top:1px solid var(--line);padding-top:22px;margin-bottom:5vh;flex-wrap:wrap}
+.series-h .n{font-family:var(--serif);font-size:14px;color:var(--terra)}
+.series-h h4{font-family:var(--serif);font-weight:400;font-size:clamp(28px,3.2vw,48px);font-style:italic;letter-spacing:-.02em}
+.series-h p{color:var(--mute);font-size:14px;margin-left:auto;max-width:380px}
+.ph.cover{margin-bottom:2vw}
+.egrid{display:grid;grid-template-columns:repeat(12,1fr);gap:2vw;align-items:start}
+.egrid .ph{grid-column:span 4}
+.egrid .ph.w{grid-column:span 7}
+.egrid .ph.n{grid-column:span 5}
+.egrid .ph.off{margin-top:12vh}
+
+/* Évent : mosaïque */
+#event-gal{position:relative;z-index:6;--acc:#8b9dff;--acc2:#ff6fa6;padding-bottom:12vh}
+.mason{columns:3;column-gap:1.6vw;padding:0 clamp(18px,4vw,56px)}
+.mason .ph{break-inside:avoid;margin-bottom:1.6vw;border-radius:2px}
+.mason .ph img{height:auto;transform:scale(1.04)}
+.mason .ph:hover img{filter:saturate(1.25) contrast(1.05)}
+.mason .ph::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0;transition:.5s;box-shadow:inset 0 0 0 1px var(--blue),inset 0 0 60px rgba(61,92,255,.45)}
+.mason .ph:hover::before{opacity:1}
+
+/* ---------- Contact / footer ---------- */
+#contact{position:relative;z-index:6;padding:20vh clamp(18px,7vw,120px) 12vh;text-align:center;background:radial-gradient(60% 50% at 50% 30%,#1d1912,var(--bg) 70%)}
+#contact .k{font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:22px}
+#contact h2{font-family:var(--serif);font-weight:400;font-size:clamp(44px,7vw,120px);line-height:.98;letter-spacing:-.035em}
+#contact h2 em{font-style:italic;color:var(--gold2)}
+#contact p{color:var(--mute);max-width:520px;margin:28px auto 0}
+.btns{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:40px}
+.btn{display:inline-flex;align-items:center;gap:12px;padding:16px 28px;border-radius:99px;font-size:12px;letter-spacing:.24em;text-transform:uppercase;border:1px solid var(--gold);color:var(--ink);transition:.35s}
+.btn.fill{background:var(--gold);color:#120e08}
+.btn:hover{transform:translateY(-2px);box-shadow:0 14px 40px -12px rgba(201,162,90,.6)}
+.contact-note{font-size:13px;color:var(--mute);margin-top:22px}
+footer{position:relative;z-index:6;padding:8vh clamp(18px,4vw,56px) 30px;border-top:1px solid var(--line);overflow:hidden;background:var(--bg)}
+footer .giant{font-family:var(--serif);font-weight:800;font-size:clamp(60px,16vw,290px);line-height:.85;letter-spacing:-.05em;white-space:nowrap;text-align:center;background:linear-gradient(180deg,var(--ink) 20%,rgba(242,236,226,.04));-webkit-background-clip:text;background-clip:text;color:transparent}
+footer .giant em{font-style:italic;font-weight:300}
+footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-top:5vh;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--mute)}
+
+/* ---------- Lightbox ---------- */
+#lb{position:fixed;inset:0;z-index:180;background:rgba(6,5,5,.96);display:none;align-items:center;justify-content:center}
+#lb.on{display:flex}
+#lb img{max-width:88vw;max-height:84svh;object-fit:contain;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+#lb button{position:absolute;background:rgba(0,0,0,.3);border:1px solid var(--line);color:var(--ink);width:52px;height:52px;border-radius:50%;font-size:18px;cursor:pointer;transition:.3s}
+#lb button:hover{border-color:var(--gold);color:var(--gold)}
+#lb .x{top:22px;right:22px}#lb .p{left:22px;top:50%}#lb .n{right:22px;top:50%}
+#lb .c{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:.3em;color:var(--mute)}
+
+/* ---------- Mobile ---------- */
+@media (max-width:820px){
+  #mariage-intro .bg-word{top:22%}
+  .scrollhint{display:none}
+  nav{display:none}
+  #stage{width:80vw;top:38%}
+  #hero .bigword{top:36%}
+  #hero .right{display:none}
+  .chap{align-items:flex-end;padding-bottom:9vh}
+  .chap.r{justify-content:flex-start}
+  .chap .txt{background:linear-gradient(rgba(11,10,9,0),rgba(11,10,9,.88) 22%);padding-top:40px}
+  .chap .num{font-size:84px}
+  .genres{grid-template-columns:1fr}
+  .gal-head{grid-template-columns:1fr;gap:20px;padding-top:10vh}
+  .boxwrap{width:50vw;margin-top:24vh}
+  .maskwrap{height:56svh}
+  .egrid .ph,.egrid .ph.w,.egrid .ph.n{grid-column:span 12}
+  .egrid .ph.off{margin-top:0}
+  .mason{columns:2}
+  .htrack .ph{height:50svh}.htrack .ph:nth-child(3n+2){height:42svh;margin-top:8svh}.htrack .ph:nth-child(3n){height:46svh;margin-bottom:8svh}
+}
+@media (prefers-reduced-motion:reduce){.grain,.marquee .t,.sparks i,#loader svg,.scrollhint i{animation:none}}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<div id="loader"><div class="in">
+  <svg viewBox="0 0 100 100" aria-hidden="true"><g fill="none" stroke="#c9a25a" stroke-width="2"><circle cx="50" cy="50" r="46"/><path d="M50 4 L74 46 M90 27 L63 74 M86 73 L38 73 M50 96 L26 54 M10 73 L37 26 M14 27 L62 27"/></g></svg>
+  <div class="logo"><b>Caleb</b><i>PHOTO</i></div>
+  <div class="cnt"><span id="cnt">000</span></div>
+</div></div>
+
+<header id="hd">
+  <a href="#hero" class="logo" aria-label="CalebPhoto, accueil"><svg viewBox="0 0 100 100" aria-hidden="true"><g fill="none" stroke="#c9a25a" stroke-width="5"><circle cx="50" cy="50" r="44"/><path d="M50 6 L74 46 M88 28 L63 74 M86 72 L38 72 M50 94 L26 54 M12 72 L37 26 M14 28 L62 28"/></g></svg><b>Caleb</b><i>PHOTO</i></a>
+  <nav><a href="#mariage-intro" data-sec="m">Mariage</a><a href="#art-intro" data-sec="a">Art photo</a><a href="#event-intro" data-sec="e">Évent</a><a href="#contact">Contact</a></nav>
+  <a href="#contact" class="cta-mini">Réserver</a>
+</header>
+
+<div id="stage" aria-hidden="true">
+  <div class="halo"></div><div class="floor"></div>
+  <div class="rig">
+    <div class="auto">
+      <div class="v"><img src="img/cam_front.webp" alt=""></div>
+      <div class="v"><img src="img/cam_tq.webp" alt=""></div>
+      <div class="v"><img src="img/cam_sideR.webp" alt=""></div>
+      <div class="v"><img src="img/cam_back.webp" alt=""></div>
+      <div class="v"><img src="img/cam_sideL.webp" alt=""></div>
+    </div>
+    <div class="scr">
+      <div class="v" data-k="tq"><img src="img/cam_tq.webp" alt=""></div>
+      <div class="v" data-k="top"><img src="img/cam_top.webp" alt=""></div>
+      <div class="v" data-k="back"><img src="img/cam_back.webp" alt=""></div>
+      <div class="v" data-k="lens"><img src="img/cam_front.webp" alt=""></div>
+    </div>
+  </div>
+</div>
+<div id="lensblack"></div>
+
+<main>
+<section id="hero">
+  <div class="spot"></div>
+  <div class="bigword" id="bw"><span>C</span><span>A</span><span>L</span><span>E</span><span>B</span></div>
+  <div class="meta">
+    <div class="kicker">Photographie d'auteur</div>
+    <h1 class="split">La lumière, <em>avant tout.</em></h1>
+    <p>Mariages, art et événements : des images qui gardent la chaleur du moment.</p>
+  </div>
+  <div class="right"><b>Caleb Bah</b>Photographe</div>
+  <div class="scrollhint">Défiler<i></i></div>
+</section>
+
+<section id="chapters">
+  <div class="chap" data-i="1"><div class="txt">
+    <div class="num">01</div><div class="lab">L'œil</div>
+    <h2 class="split">Voir avant de <em>déclencher.</em></h2>
+    <p class="fadeup">Chaque photo commence par un regard : la lumière qui tombe, le geste qui va naître, le silence juste avant.</p>
+  </div></div>
+  <div class="chap r" data-i="2"><div class="txt">
+    <div class="num">02</div><div class="lab">Le geste</div>
+    <h2 class="split">Le réglage <em>juste.</em></h2>
+    <p class="fadeup">Ouverture, vitesse, sensibilité. La technique s'efface pour laisser toute la place à l'émotion.</p>
+    <div class="specs fadeup"><div>f/4<small>Ouverture</small></div><div>1/8000<small>Vitesse</small></div><div>100<small>ISO</small></div></div>
+  </div></div>
+  <div class="chap" data-i="3"><div class="txt">
+    <div class="num">03</div><div class="lab">Le regard</div>
+    <h2 class="split">Ce que l'écran <em>ne dit pas.</em></h2>
+    <p class="fadeup">Le cadre se construit sur place, avec vous. Pas de pose figée : une présence, discrète et attentive.</p>
+  </div></div>
+  <div class="chap r" data-i="4"><div class="txt">
+    <div class="num">04</div><div class="lab">L'objectif</div>
+    <h2 class="split">Trois univers. <em>Un seul regard.</em></h2>
+    <p class="fadeup">Entrez dans l'objectif.</p>
+  </div></div>
+  <div class="dive" style="height:100vh"></div>
+</section>
+
+<section id="univers">
+  <div class="k">Les genres</div>
+  <h2 class="split">Trois manières de <em>raconter</em> la lumière.</h2>
+  <div class="marquee"><div class="t"><span>Mariage photographie</span><span>Art photo</span><span>Évent photos</span><span>Mariage photographie</span><span>Art photo</span><span>Évent photos</span></div></div>
+  <div class="genres">
+    <a href="#mariage-intro"><small>Chapitre I</small><b>Mariage</b></a>
+    <a href="#art-intro"><small>Chapitre II</small><b>Art photo</b></a>
+    <a href="#event-intro"><small>Chapitre III</small><b>Évent photos</b></a>
+  </div>
+</section>
+
+<section id="mariage-intro" class="intro"><div class="sticky">
+  <div class="chapnum">Chapitre I</div>
+  <div class="bg-word" id="mw"><span class="l1"></span><span class="l2">Photographie</span></div>
+  <div class="boxwrap" id="boxwrap">
+    <div class="pool"></div>
+    <div class="box" id="box"><img src="img/box.webp" alt="Coffret d'alliances"></div>
+    <canvas id="rings"></canvas>
+    <div class="sparks" id="sparks"></div>
+  </div>
+  <div class="sub" id="msub" style="opacity:0"><b>Le plus beau jour, dans ses moindres détails.</b>Des préparatifs au premier regard : les alliances, la lumière sur la dentelle, les mains qui se trouvent.</div>
+</div></section>
+<section id="mariage-gal">
+  <div class="gal-head">
+    <div><div class="k">Mariage photographie</div><h3 class="split">Les détails <em>qui restent.</em></h3></div>
+    <div><p class="fadeup">Bouquet, souliers, parfum, veste du marié… Avant la cérémonie, chaque objet raconte déjà une histoire. Puis vient l'étreinte.</p><div class="count fadeup" id="mcount"></div></div>
+  </div>
+  <div class="hwrap" id="hwrap"><div class="hs"><div class="htrack" id="htrack"></div><div class="hprog"><i id="hprog"></i></div></div></div>
+</section>
+
+<section id="art-intro" class="intro"><div class="sticky">
+  <div class="cone" id="cone"></div>
+  <div class="chapnum">Chapitre II</div>
+  <div class="bg-word" id="aw"></div>
+  <div class="maskwrap" id="maskwrap">
+    <div class="mask" id="mask"><img src="img/mask.webp" alt="Masque sculpté"><div class="shade"></div>
+      <div class="eye" style="left:30.6%;width:16.4%;top:41.6%"></div>
+      <div class="eye" style="left:54.8%;width:16.4%;top:41.6%"></div>
+      <div class="eyeglow" id="eyeglow"></div>
+    </div>
+  </div>
+  <div class="sub" id="asub" style="opacity:0"><b>Le masque s'éveille.</b>Patrimoine, mémoire et mer : une photographie qui cherche le sens derrière l'image.</div>
+</div></section>
+<section id="art-gal">
+  <div class="gal-head">
+    <div><div class="k">Art photo</div><h3 class="split">Regarder <em>autrement.</em></h3></div>
+    <div><p class="fadeup">Trois séries personnelles : les façades coloniales de Grand Bassam, les masques et les corps peints, la mer et ceux qui en vivent.</p></div>
+  </div>
+  <div id="series"></div>
+</section>
+
+<section id="event-intro" class="intro"><div class="sticky">
+  <div class="stagebeams" id="beams"></div>
+  <div class="chapnum">Chapitre III</div>
+  <div class="flashgun" id="flashgun"><i></i>Flash prêt</div>
+  <div class="bg-word" id="ew">Évent<span class="l2">Photos</span></div>
+  <div class="sub" id="esub" style="opacity:0"><b>La nuit, la scène, la foule.</b>Concerts, festivals, soirées : l'énergie du direct, saisie au vol.</div>
+</div></section>
+<div id="flash"></div>
+<section id="event-gal">
+  <div class="gal-head">
+    <div><div class="k">Évent photos</div><h3 class="split">Le direct, <em>en lumière.</em></h3></div>
+    <div><p class="fadeup">Scènes de concert, festivals, dégustations, soirées et photocalls : être là où ça se passe, sans jamais gêner le moment.</p><div class="count fadeup" id="ecount"></div></div>
+  </div>
+  <div class="mason" id="mason"></div>
+</section>
+
+<section id="contact">
+  <div class="k">Réservation</div>
+  <h2 class="split">Réservons <em>votre lumière.</em></h2>
+  <p class="fadeup">Mariage, projet artistique, événement : parlons de votre histoire et de la manière de la raconter.</p>
+  <div class="btns fadeup" id="btns"></div>
+  <div class="contact-note fadeup" id="cnote"></div>
+</section>
+</main>
+
+<footer>
+  <div class="giant">Caleb<em>Photo</em></div>
+  <div class="row"><span>© Caleb Bah — Tous droits réservés</span><span>Mariage · Art photo · Évent</span><span id="yr"></span></div>
+</footer>
+
+<div id="lb" role="dialog" aria-modal="true" aria-label="Visionneuse"><img alt=""><button class="x" aria-label="Fermer">✕</button><button class="p" aria-label="Précédente">←</button><button class="n" aria-label="Suivante">→</button><div class="c"></div></div>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/ScrollTrigger.min.js"></script>
+<script src="vendor/lenis.min.js"></script>
+<script>
+/* ============ Coordonnées (à compléter) ============ */
+const CONTACT = { whatsapp: "", email: "", instagram: "" }; // ex. whatsapp:"2250700000000"
+
+const META = {"art": [{"src": "img/a01.webp", "w": 1500, "h": 1000}, {"src": "img/a02.webp", "w": 1500, "h": 1000}, {"src": "img/a03.webp", "w": 1500, "h": 1000}, {"src": "img/a04.webp", "w": 1500, "h": 1000}, {"src": "img/a05.webp", "w": 1500, "h": 1000}, {"src": "img/a06.webp", "w": 1500, "h": 1000}, {"src": "img/a07.webp", "w": 1000, "h": 1500}, {"src": "img/a08.webp", "w": 1000, "h": 1500}, {"src": "img/a09.webp", "w": 1000, "h": 1500}, {"src": "img/a10.webp", "w": 1000, "h": 1500}, {"src": "img/a11.webp", "w": 1000, "h": 1500}, {"src": "img/a12.webp", "w": 1000, "h": 1500}, {"src": "img/a13.webp", "w": 1000, "h": 1500}, {"src": "img/a14.webp", "w": 1500, "h": 1000}, {"src": "img/a15.webp", "w": 1000, "h": 1500}, {"src": "img/a16.webp", "w": 1000, "h": 1500}, {"src": "img/a17.webp", "w": 1000, "h": 1500}], "event": [{"src": "img/e01.webp", "w": 1000, "h": 1500}, {"src": "img/e02.webp", "w": 1500, "h": 1000}, {"src": "img/e03.webp", "w": 1000, "h": 1500}, {"src": "img/e04.webp", "w": 1500, "h": 998}, {"src": "img/e05.webp", "w": 1000, "h": 1500}, {"src": "img/e06.webp", "w": 1500, "h": 1000}, {"src": "img/e07.webp", "w": 1000, "h": 1500}, {"src": "img/e08.webp", "w": 1000, "h": 1500}, {"src": "img/e09.webp", "w": 1000, "h": 1500}, {"src": "img/e10.webp", "w": 1000, "h": 1500}, {"src": "img/e11.webp", "w": 1000, "h": 1500}, {"src": "img/e12.webp", "w": 1500, "h": 1000}, {"src": "img/e13.webp", "w": 1000, "h": 1500}, {"src": "img/e14.webp", "w": 1000, "h": 1500}, {"src": "img/e15.webp", "w": 1500, "h": 1200}, {"src": "img/e16.webp", "w": 1500, "h": 1000}, {"src": "img/e17.webp", "w": 1000, "h": 1500}], "mariage": [{"src": "img/m01.webp", "w": 1000, "h": 1500}, {"src": "img/m02.webp", "w": 1000, "h": 1500}, {"src": "img/m03.webp", "w": 1000, "h": 1500}, {"src": "img/m04.webp", "w": 556, "h": 805}, {"src": "img/m05.webp", "w": 437, "h": 690}, {"src": "img/m06.webp", "w": 1000, "h": 1500}, {"src": "img/m07.webp", "w": 1000, "h": 1500}, {"src": "img/m08.webp", "w": 1121, "h": 1500}, {"src": "img/m09.webp", "w": 1000, "h": 1500}, {"src": "img/m10.webp", "w": 1000, "h": 1500}, {"src": "img/m11.webp", "w": 1500, "h": 1200}, {"src": "img/m12.webp", "w": 1307, "h": 1500}, {"src": "img/m13.webp", "w": 1228, "h": 1500}, {"src": "img/m14.webp", "w": 1000, "h": 1500}, {"src": "img/m15.webp", "w": 1000, "h": 1500}, {"src": "img/m16.webp", "w": 640, "h": 960}]};
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+gsap.registerPlugin(ScrollTrigger);
+document.getElementById('yr').textContent = 'CalebPhoto ' + new Date().getFullYear();
+document.addEventListener('contextmenu', e => { if (e.target.tagName === 'IMG') e.preventDefault(); });
+
+/* ---------- Lenis ---------- */
+let lenis = null;
+if (!reduce) {
+  lenis = new Lenis({ lerp: 0.09, smoothWheel: true });
+  lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add(t => lenis.raf(t * 1000));
+  gsap.ticker.lagSmoothing(0);
+}
+window.__lenis = lenis;
+document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+  const t = document.querySelector(a.getAttribute('href')); if (!t) return;
+  e.preventDefault(); lenis ? lenis.scrollTo(t, { duration: 1.8 }) : t.scrollIntoView({ behavior: 'smooth' });
+}));
+
+/* ---------- Découpe des titres en mots ---------- */
+function splitWords(el) {
+  const walk = (node, em) => {
+    const out = [];
+    node.childNodes.forEach(n => {
+      if (n.nodeType === 3) n.textContent.split(/(\s+)/).forEach(w => { if (w.trim()) out.push({ w, em }); else if (w) out.push({ sp: 1 }); });
+      else out.push(...walk(n, em || n.tagName === 'EM'));
+    });
+    return out;
+  };
+  const words = walk(el, false); el.innerHTML = '';
+  words.forEach(o => {
+    if (o.sp) { el.appendChild(document.createTextNode(' ')); return; }
+    const m = document.createElement('span'); m.className = 'line-mask';
+    const s = document.createElement(o.em ? 'em' : 'span'); s.textContent = o.w;
+    m.appendChild(s); el.appendChild(m);
+  });
+}
+document.querySelectorAll('.split').forEach(splitWords);
+
+/* ---------- Galeries ---------- */
+const ALL = [];
+function ph(o, cls, cap) {
+  const f = document.createElement('figure'); f.className = 'ph ' + (cls || '');
+  f.style.aspectRatio = o.w + '/' + o.h;
+  f.innerHTML = `<img src="${o.src}" width="${o.w}" height="${o.h}" loading="lazy" decoding="async" alt="${cap ? cap + ' — ' : ''}photographie de Caleb Bah">` + (cap ? `<figcaption>${cap}</figcaption>` : '');
+  const idx = ALL.push(o.src) - 1; f.addEventListener('click', () => openLB(idx)); return f;
+}
+const mCaps = ['Le couple','Les alliances','Le bouquet','La mariée','Le voile','Les souliers','La veste','Dans l\'alcôve','Le parfum','Lumière du matin','Les mocassins','Rouge passion','Perles & or','Rituel','Talons d\'or','Noir & blanc'];
+const ht = document.getElementById('htrack');
+META.mariage.forEach((o, i) => {
+  ht.appendChild(ph(o, '', mCaps[i]));
+  if (i === 4) ht.insertAdjacentHTML('beforeend', '<div class="quote">« Un jour, mille détails, une seule histoire. »<small>Mariage photographie</small></div>');
+  if (i === 10) ht.insertAdjacentHTML('beforeend', '<div class="quote">Les objets parlent avant les vœux.<small>Préparatifs</small></div>');
+});
+document.getElementById('mcount').textContent = String(META.mariage.length).padStart(2, '0') + ' images';
+const A = META.art, sEl = document.getElementById('series');
+const series = [
+  { n: 'I', t: 'Grand Bassam, patrimoine historique', d: 'Façades coloniales rendues à la végétation, arcades, rails dans le sable : une ville-mémoire.', cover: A[0], items: A.slice(1, 6), lay: ['w', 'n off', 'n', 'w off', 't'] },
+  { n: 'II', t: 'Masques & mémoire', d: 'Masques, cauris et corps peints : le portrait comme rituel.', items: A.slice(6, 11), lay: ['n', 't off', 't', 't off', 't'] },
+  { n: 'III', t: 'La mer, ceux qui en vivent', d: 'Pirogues, filets réparés à la main, vagues d\'argent : le littoral au quotidien.', items: A.slice(11), lay: ['t', 't off', 't', 'w', 'n off', 't'] },
+];
+series.forEach(s => {
+  const w = document.createElement('div'); w.className = 'series';
+  w.innerHTML = `<div class="series-h"><span class="n">${s.n}</span><h4>${s.t}</h4><p>${s.d}</p></div>`;
+  if (s.cover) w.appendChild(ph(s.cover, 'cover', s.t));
+  const g = document.createElement('div'); g.className = 'egrid';
+  s.items.forEach((o, i) => g.appendChild(ph(o, s.lay[i] || 't', s.t)));
+  w.appendChild(g); sEl.appendChild(w);
+});
+const ms = document.getElementById('mason');
+META.event.forEach(o => ms.appendChild(ph(o, '', 'Évent')));
+document.getElementById('ecount').textContent = String(META.event.length).padStart(2, '0') + ' images';
+
+/* ---------- Contact ---------- */
+(function () {
+  const b = document.getElementById('btns'), n = document.getElementById('cnote'); let any = false;
+  if (CONTACT.whatsapp) { any = true; b.insertAdjacentHTML('beforeend', `<a class="btn fill" href="https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent('Bonjour Caleb, je souhaite réserver une séance photo.')}" target="_blank" rel="noopener">WhatsApp</a>`); }
+  if (CONTACT.instagram) { any = true; b.insertAdjacentHTML('beforeend', `<a class="btn" href="https://instagram.com/${CONTACT.instagram}" target="_blank" rel="noopener">Instagram</a>`); }
+  if (CONTACT.email) { any = true; b.insertAdjacentHTML('beforeend', `<a class="btn" href="mailto:${CONTACT.email}">E-mail</a>`); n.textContent = CONTACT.email; }
+  if (!any) { b.insertAdjacentHTML('beforeend', `<a class="btn fill" href="#mariage-intro">Voir les mariages</a><a class="btn" href="#art-intro">Art photo</a><a class="btn" href="#event-intro">Évent</a>`); n.textContent = 'Réservations sur demande.'; }
+  b.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); const t = document.querySelector(a.getAttribute('href')); lenis ? lenis.scrollTo(t, { duration: 1.8 }) : t.scrollIntoView(); }));
+})();
+
+/* ---------- Visionneuse ---------- */
+const lb = document.getElementById('lb'), lbi = lb.querySelector('img'), lbc = lb.querySelector('.c'); let cur = 0;
+function openLB(i) { cur = i; show(); lb.classList.add('on'); lenis && lenis.stop(); }
+function show() { lbi.src = ALL[cur]; lbc.textContent = (cur + 1) + ' / ' + ALL.length; }
+function closeLB() { lb.classList.remove('on'); lenis && lenis.start(); }
+lb.querySelector('.x').onclick = closeLB;
+lb.querySelector('.p').onclick = e => { e.stopPropagation(); cur = (cur - 1 + ALL.length) % ALL.length; show(); };
+lb.querySelector('.n').onclick = e => { e.stopPropagation(); cur = (cur + 1) % ALL.length; show(); };
+lb.addEventListener('click', e => { if (e.target === lb) closeLB(); });
+addEventListener('keydown', e => { if (!lb.classList.contains('on')) return; if (e.key === 'Escape') closeLB(); if (e.key === 'ArrowRight') lb.querySelector('.n').click(); if (e.key === 'ArrowLeft') lb.querySelector('.p').click(); });
+
+/* ---------- En-tête ---------- */
+ScrollTrigger.create({ start: 80, end: 'max', onToggle: s => document.getElementById('hd').classList.toggle('solid', s.isActive) });
+[['m', '#mariage-intro', '#mariage-gal'], ['a', '#art-intro', '#art-gal'], ['e', '#event-intro', '#event-gal']].forEach(([k, a, b]) => {
+  ScrollTrigger.create({ trigger: a, endTrigger: b, start: 'top center', end: 'bottom center', onToggle: s => document.querySelector(`nav a[data-sec="${k}"]`).classList.toggle('on', s.isActive) });
+});
+
+/* ---------- Chargement ---------- */
+const heroImgs = [...document.querySelectorAll('#stage img, #box img, #mask img')];
+const loaded = Promise.all(heroImgs.map(i => i.complete ? 1 : new Promise(r => { i.onload = i.onerror = r; })));
+const cnt = { v: 0 }, cntEl = document.getElementById('cnt');
+const loadTl = gsap.to(cnt, { v: 100, duration: reduce ? .2 : 1.6, ease: 'power2.inOut', onUpdate: () => cntEl.textContent = String(Math.round(cnt.v)).padStart(3, '0') });
+lenis && lenis.stop();
+Promise.all([loaded, loadTl]).then(() => {
+  const L = document.getElementById('loader'); const o = { r: 0 };
+  gsap.to(o, { r: 80, duration: 1.3, ease: 'expo.inOut', onUpdate: () => L.style.setProperty('--r', o.r + '%'), onComplete: () => { L.remove(); lenis && lenis.start(); } });
+  intro();
+});
+
+/* ---------- Hero : rotation automatique de l'appareil ---------- */
+gsap.set('#stage', { xPercent: -50, yPercent: -50 });
+const autoViews = gsap.utils.toArray('#stage .auto .v');
+let spinTl;
+function intro() {
+  gsap.from('#bw span', { yPercent: 110, opacity: 0, stagger: .06, duration: 1.4, ease: 'expo.out', delay: .5 });
+  gsap.from('#stage .rig', { scale: .7, opacity: 0, y: 60, duration: 1.8, ease: 'expo.out', delay: .4 });
+  gsap.from('#hero h1 .line-mask>*', { yPercent: 110, stagger: .08, duration: 1.1, ease: 'expo.out', delay: .9 });
+  gsap.from('#hero .kicker, #hero p, #hero .right, .scrollhint', { opacity: 0, y: 20, stagger: .1, duration: 1, delay: 1.1 });
+  if (reduce) return;
+  spinTl = gsap.timeline({ repeat: -1, delay: 1.2 });
+  autoViews.forEach((v, i) => {
+    const nx = autoViews[(i + 1) % autoViews.length];
+    spinTl.to(v, { opacity: 0, rotateY: 40, x: '7%', filter: 'blur(3px)', duration: .9, ease: 'power2.in' }, '+=1.6')
+          .fromTo(nx, { opacity: 0, rotateY: -40, x: '-7%', filter: 'blur(3px)' }, { opacity: 1, rotateY: 0, x: 0, filter: 'blur(0px)', duration: 1, ease: 'power2.out' }, '<.45');
+  });
+  gsap.to('#stage .auto', { y: -14, duration: 3, yoyo: true, repeat: -1, ease: 'sine.inOut' });
+}
+const rig = document.querySelector('#stage .rig');
+addEventListener('pointermove', e => {
+  if (reduce || scrollY > innerHeight * .6) return;
+  const x = e.clientX / innerWidth - .5, y = e.clientY / innerHeight - .5;
+  gsap.to(rig, { rotateY: x * 16, rotateX: -y * 8, duration: 1.2, ease: 'power3.out', overwrite: 'auto' });
+  gsap.to('#bw', { x: -x * 30, duration: 1.6, ease: 'power3.out', overwrite: 'auto' });
+});
+
+/* ---------- Chapitres : angles caméra pilotés par le scroll ---------- */
+const mm = gsap.matchMedia();
+mm.add({ desk: '(min-width: 821px)', mob: '(max-width: 820px)' }, ctx => {
+  const D = ctx.conditions.desk;
+  const X = D ? 22 : 0, Ym = D ? 0 : -8;
+  const sv = k => `#stage .scr .v[data-k="${k}"]`;
+  const LENS = '56.5% 63%';
+  gsap.set('#stage .scr .v', { opacity: 0 });
+  // une seule timeline ; unités = vh de scroll depuis l'entrée de #chapters (4 × 110vh + 120vh de plongée + 100vh)
+  // chapitre i centré à t = 105 + 110*i
+  const C = i => 105 + 110 * i;
+  const tl = gsap.timeline({ defaults: { ease: 'power2.inOut' }, scrollTrigger: { trigger: '#chapters', start: 'top bottom', end: 'bottom top', scrub: 1,
+    onUpdate: s => { if (spinTl) (s.progress > .03 ? spinTl.pause() : spinTl.play()); } } });
+  tl.set({}, {}, 640)
+    // 01 — vue 3/4, à droite
+    .to('#stage .auto', { opacity: 0, duration: 40 }, C(0) - 85)
+    .to('#hero .bigword', { opacity: 0, scale: .9, duration: 60 }, C(0) - 90)
+    .to(rig, { rotateY: 0, rotateX: 0, duration: 40 }, C(0) - 90)
+    .fromTo('#stage', { x: 0, y: 0 }, { x: X + 'vw', y: Ym + 'vh', duration: 80 }, C(0) - 85)
+    .fromTo(sv('tq'), { opacity: 0, rotateY: -40 }, { opacity: 1, rotateY: -8, duration: 50 }, C(0) - 55)
+    // 02 — vue de dessus, à gauche
+    .to(sv('tq'), { opacity: 0, rotateY: 35, duration: 35 }, C(1) - 85)
+    .to('#stage', { x: -X + 'vw', duration: 80 }, C(1) - 85)
+    .fromTo(sv('top'), { opacity: 0, rotateX: 60, scale: .9 }, { opacity: 1, rotateX: 14, scale: 1, duration: 45 }, C(1) - 50)
+    // 03 — vue de dos, à droite
+    .to(sv('top'), { opacity: 0, rotateX: -35, duration: 35 }, C(2) - 85)
+    .to('#stage', { x: X + 'vw', duration: 80 }, C(2) - 85)
+    .fromTo(sv('back'), { opacity: 0, rotateY: 65 }, { opacity: 1, rotateY: 6, duration: 45 }, C(2) - 50)
+    // 04 — face, à gauche
+    .to(sv('back'), { opacity: 0, rotateY: -60, duration: 35 }, C(3) - 85)
+    .to('#stage', { x: -X + 'vw', duration: 80 }, C(3) - 85)
+    .fromTo(sv('lens'), { opacity: 0, rotateY: 40, scale: .85 }, { opacity: 1, rotateY: 0, scale: 1, duration: 45 }, C(3) - 50)
+    // plongée dans l'objectif
+    .to('#stage', { x: 0, y: 0, duration: 40 }, C(3) + 15)
+    .to('#stage .halo,#stage .floor', { opacity: 0, duration: 20 }, C(3) + 20)
+    .to(sv('lens'), { scale: 11, transformOrigin: LENS, duration: 75, ease: 'power3.in' }, C(3) + 30)
+    .to('#lensblack', { opacity: 1, duration: 18, ease: 'none' }, C(3) + 88)
+    .set('#stage', { opacity: 0 }, C(3) + 106)
+    .to('#lensblack', { opacity: 0, duration: 15, ease: 'none' }, C(3) + 110);
+});
+
+/* ---------- Révélations ---------- */
+gsap.utils.toArray('.split').forEach(el => {
+  if (el.closest('#hero')) return;
+  gsap.from(el.querySelectorAll('.line-mask>*'), { yPercent: 115, rotate: 3, duration: 1.1, ease: 'expo.out', stagger: .05, scrollTrigger: { trigger: el, start: 'top 86%' } });
+});
+gsap.utils.toArray('.fadeup').forEach(el => gsap.from(el, { opacity: 0, y: 30, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 90%' } }));
+gsap.utils.toArray('.chap .num').forEach(el => gsap.fromTo(el, { yPercent: 40 }, { yPercent: -40, ease: 'none', scrollTrigger: { trigger: el.closest('.chap'), scrub: true } }));
+function revealPhotos(sel) {
+  gsap.utils.toArray(sel).forEach(f => {
+    gsap.fromTo(f, { clipPath: 'inset(100% 0 0 0)' }, { clipPath: 'inset(0% 0 0 0)', duration: 1.3, ease: 'expo.out', scrollTrigger: { trigger: f, start: 'top 94%' } });
+    gsap.fromTo(f.querySelector('img'), { yPercent: -5 }, { yPercent: 5, ease: 'none', scrollTrigger: { trigger: f, scrub: true } });
+  });
+}
+revealPhotos('#series .ph'); revealPhotos('#mason .ph');
+// l'appareil fixe disparaît une fois entré dans l'objectif
+const stageEl = document.getElementById('stage');
+ScrollTrigger.create({ trigger: '#univers', start: 'top 60%', onEnter: () => stageEl.style.visibility = 'hidden', onLeaveBack: () => stageEl.style.visibility = 'visible' });
+
+/* ---------- MARIAGE : coffret + alliances ---------- */
+const mwl = document.querySelector('#mw .l1'); 'MARIAGE'.split('').forEach(c => mwl.insertAdjacentHTML('beforeend', `<span>${c}</span>`));
+const sparks = document.getElementById('sparks');
+for (let i = 0; i < 24; i++) { const s = document.createElement('i'); s.style.left = (20 + Math.random() * 60) + '%'; s.style.top = (Math.random() * 90) + '%'; s.style.animationDelay = (Math.random() * 1.8) + 's'; const z = 10 + Math.random() * 16; s.style.width = s.style.height = z + 'px'; s.style.setProperty('--o', (.4 + Math.random() * .6).toFixed(2)); sparks.appendChild(s); }
+window.RINGS = { p: 0 };
+const mt = gsap.timeline({ scrollTrigger: { trigger: '#mariage-intro', start: 'top top', end: 'bottom bottom', scrub: 1 } });
+mt.fromTo('#box', { rotateY: -62, rotateX: 8, scale: .72 }, { rotateY: 0, rotateX: 0, scale: 1, duration: 3, ease: 'power2.out' }, 0)
+  .fromTo('#boxwrap .pool', { opacity: 0 }, { opacity: 1, duration: 2 }, .5)
+  .fromTo('#mw .l1 span', { yPercent: 60, opacity: 0 }, { yPercent: 0, opacity: 1, stagger: .12, duration: 1.4, ease: 'power3.out' }, .8)
+  .to(window.RINGS, { p: 1, duration: 4, ease: 'none' }, 2.4)
+  .fromTo('#sparks', { opacity: 0 }, { opacity: 1, duration: 1.5 }, 3.6)
+  .fromTo('#mw .l2', { opacity: 0, letterSpacing: '.8em' }, { opacity: 1, letterSpacing: '.32em', duration: 1.5 }, 4.6)
+  .fromTo('#msub', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1.2 }, 5.6)
+  .to({}, { duration: 1.4 });
+
+/* Galerie horizontale mariage */
+const hw = document.getElementById('hwrap');
+function sizeH() { const dist = Math.max(0, ht.scrollWidth - innerWidth); hw.style.height = (innerHeight + dist) + 'px'; return dist; }
+sizeH();
+gsap.to(ht, { x: () => -Math.max(0, ht.scrollWidth - innerWidth), ease: 'none', scrollTrigger: { trigger: hw, start: 'top top', end: 'bottom bottom', scrub: .8, invalidateOnRefresh: true, onRefreshInit: sizeH } });
+gsap.to('#hprog', { scaleX: 1, ease: 'none', scrollTrigger: { trigger: hw, start: 'top top', end: 'bottom bottom', scrub: true } });
+gsap.utils.toArray('#htrack .ph img').forEach(im => gsap.fromTo(im, { xPercent: -5 }, { xPercent: 5, ease: 'none', scrollTrigger: { trigger: hw, start: 'top top', end: 'bottom bottom', scrub: true } }));
+
+/* ---------- ART : le masque s'éveille ---------- */
+const aw = document.getElementById('aw'); 'ART PHOTO'.split('').forEach(c => aw.insertAdjacentHTML('beforeend', c === ' ' ? '<span>&nbsp;</span>' : `<span>${c}</span>`));
+const maskEl = document.getElementById('mask'), eyes = maskEl.querySelectorAll('.eye');
+const st = { r: -80, b: .2 };
+const applyMask = () => { maskEl.style.transform = `rotateY(${st.r}deg)`; const s = Math.sin(st.r * Math.PI / 180); maskEl.style.setProperty('--sl', Math.max(0, -s).toFixed(3)); maskEl.style.setProperty('--sr', Math.max(0, s).toFixed(3)); maskEl.style.setProperty('--b', st.b.toFixed(3)); };
+applyMask();
+const at = gsap.timeline({ scrollTrigger: { trigger: '#art-intro', start: 'top top', end: 'bottom bottom', scrub: 1 } });
+at.to('#cone', { opacity: 1, duration: 1 }, 0)
+  .to(st, { r: 24, b: .8, duration: 2.6, ease: 'power2.inOut', onUpdate: applyMask }, 0)
+  .to(st, { r: -14, duration: 1, ease: 'sine.inOut', onUpdate: applyMask }, 2.6)
+  .to(st, { r: 0, b: 1, duration: .9, ease: 'sine.out', onUpdate: applyMask }, 3.6)
+  .fromTo('#aw span', { opacity: 0, yPercent: 60 }, { opacity: 1, yPercent: 0, stagger: .08, duration: 1.2, ease: 'power3.out' }, 1.2)
+  .fromTo(eyes, { scaleY: 0 }, { scaleY: 1, duration: 1.2, ease: 'back.out(2)', stagger: .1 }, 4.6)
+  .to(eyes, { '--pu': 1, duration: .8 }, 5.3)
+  .to('#eyeglow', { opacity: 1, duration: 1 }, 4.8)
+  .fromTo('#maskwrap', { scale: 1 }, { scale: 1.06, duration: 1.5 }, 4.8)
+  .to('#asub', { opacity: 1, y: 0, duration: 1 }, 6)
+  .to({}, { duration: 1.2 });
+ScrollTrigger.create({ trigger: '#art-intro', start: '78% bottom', onEnter: () => gsap.to(eyes, { scaleY: .08, duration: .09, yoyo: true, repeat: 1, delay: .5 }) });
+
+/* ---------- ÉVENT : flash ---------- */
+const flashEl = document.getElementById('flash');
+function fire() {
+  if (reduce) return;
+  gsap.timeline().fromTo(flashEl, { opacity: 0 }, { opacity: .8, duration: .05, ease: 'none' }).to(flashEl, { opacity: 0, duration: .9, ease: 'power2.out' });
+}
+ScrollTrigger.create({ trigger: '#event-intro', start: '24% top', onEnter: fire, onEnterBack: fire });
+const et = gsap.timeline({ scrollTrigger: { trigger: '#event-intro', start: 'top top', end: 'bottom bottom', scrub: 1 } });
+et.set('#ew', { opacity: 0 }, 0)
+  .to('#ew', { opacity: 1, duration: .05 }, 1.05)
+  .fromTo('#ew', { filter: 'blur(18px) brightness(2.6)', scale: 1.08 }, { filter: 'blur(0px) brightness(1)', scale: 1, duration: 1.6, ease: 'power2.out' }, 1.05)
+  .to('#beams', { opacity: 1, duration: 1.4 }, 1.4)
+  .to('#flashgun', { opacity: 0, duration: .4 }, 1.4)
+  .to('#esub', { opacity: 1, y: 0, duration: 1 }, 2.2)
+  .to({}, { duration: 1 });
+
+addEventListener('load', () => { sizeH(); ScrollTrigger.refresh(); });
+</script>
+
+<script type="module">
+/* ---------- Alliances en 3D (Three.js) ---------- */
+import * as THREE from './vendor/three.module.min.js';
+import { RoomEnvironment } from './vendor/RoomEnvironment.js';
+const cv = document.getElementById('rings');
+let renderer = null;
+try { renderer = new THREE.WebGLRenderer({ canvas: cv, alpha: true, antialias: true }); } catch (e) { cv.style.display = 'none'; }
+if (renderer) {
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.6));
+  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.1;
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  const scene = new THREE.Scene();
+  const pm = new THREE.PMREMGenerator(renderer); scene.environment = pm.fromScene(new RoomEnvironment(), .04).texture;
+  const cam = new THREE.PerspectiveCamera(26, 1, .1, 50); cam.position.set(0, 0, 10);
+  const key = new THREE.DirectionalLight(0xfff1d6, 2.4); key.position.set(2, 4, 5); scene.add(key);
+  const rim = new THREE.DirectionalLight(0xffc27a, 1.6); rim.position.set(-4, 1, -3); scene.add(rim);
+  function band(r, w, t) {
+    const pts = [], N = 28;
+    for (let i = 0; i <= N; i++) { const a = -Math.PI / 2 + Math.PI * i / N; pts.push(new THREE.Vector2(r + t * .35 + Math.cos(a) * t, Math.sin(a) * w)); }
+    pts.push(new THREE.Vector2(r, w * .85), new THREE.Vector2(r, -w * .85), pts[0].clone());
+    return new THREE.LatheGeometry(pts, 160);
+  }
+  const gold = new THREE.MeshPhysicalMaterial({ color: 0xf2c25e, metalness: 1, roughness: .15, clearcoat: .7, clearcoatRoughness: .08, transparent: true });
+  const gold2 = new THREE.MeshPhysicalMaterial({ color: 0xe9b04a, metalness: 1, roughness: .2, clearcoat: .5, transparent: true });
+  const r1 = new THREE.Mesh(band(.62, .17, .07), gold), r2 = new THREE.Mesh(band(.54, .14, .065), gold2);
+  const gem = new THREE.MeshPhysicalMaterial({ color: 0xf6efe2, metalness: .3, roughness: .05, envMapIntensity: 2.2, clearcoat: 1, transparent: true });
+  const gg = new THREE.OctahedronGeometry(.022);
+  for (let i = 0; i < 9; i++) { const m = new THREE.Mesh(gg, gem); const a = -0.55 + i * .14; m.position.set(Math.sin(a) * .755, 0, Math.cos(a) * .755); r1.add(m); }
+  const g1 = new THREE.Group(), g2 = new THREE.Group(); g1.add(r1); g2.add(r2); scene.add(g1, g2);
+  function resize() { const w = cv.clientWidth, h = cv.clientHeight; if (!w || !h) return; renderer.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix(); }
+  new ResizeObserver(resize).observe(cv); resize();
+  const ease = x => 1 - Math.pow(1 - x, 3), cl = x => Math.max(0, Math.min(1, x));
+  let vis = false; new IntersectionObserver(e => vis = e[0].isIntersecting).observe(cv);
+  const clock = new THREE.Clock();
+  window.__ringsY = window.__ringsY ?? -1.5;
+  (function loop() {
+    requestAnimationFrame(loop); if (!vis) return;
+    const t = clock.getElapsedTime(), p = (window.RINGS || { p: 0 }).p;
+    const rise = ease(cl(p / .55)), sep = ease(cl((p - .4) / .45)), a = cl(p / .1);
+    const baseY = window.__ringsY + rise * 1.95;
+    const s = .34 + rise * .3;
+    g1.scale.setScalar(s); g2.scale.setScalar(s * .98);
+    g1.visible = g2.visible = p > .005;
+    g1.position.set(-.12 - sep * .14, baseY + Math.sin(t * 1.2) * .04 * sep, 0);
+    g2.position.set(.13 + sep * .14, baseY - .06 + Math.cos(t * 1.1) * .04 * sep, .1);
+    g1.rotation.set(Math.PI / 2 - .3 + sep * .5, p * 3 + t * .5 * sep, -.25 + sep * .35);
+    g2.rotation.set(Math.PI / 2 - .25 - sep * .45, -p * 2.6 - t * .45 * sep, .2 - sep * .3);
+    gold.opacity = gold2.opacity = gem.opacity = a;
+    renderer.render(scene, cam);
+  })();
+}
+</script>
+</body>
+</html>
